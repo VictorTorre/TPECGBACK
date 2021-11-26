@@ -99,7 +99,7 @@ const getData = async (id, date) => {
   return data;
 };
 
-const getResultLecturesAnomality = async (req = request, res = response) => {
+const getMobileResultLectures = async (req = request, res = response) => {
   // const id  = req.query.id;
   const allLectures = [];
   var id = req.params["id"];
@@ -132,7 +132,37 @@ const getResultLecturesAnomality = async (req = request, res = response) => {
   }, 4000);
 };
 
-const getResultLectures = async (req = request, res = response) => {
+const getWebResultAbnormality = async (req = request, res = response) => {
+  // const id  = req.query.id;
+  const allLectures = [];
+  var id = req.params["id"];
+  await getDates(id);
+  setTimeout(function () {
+    for (let index = 0; index < dates.length; index++) {
+      getData(id.toString(), dates[index]).then((result) => {
+        result.forEach((res) => {
+          allLectures.push(res);
+        });
+      });
+    }
+    setTimeout(function () {
+      // console.log("allLectures", allLectures.length);
+      const helper2 = [];
+      for (let index = 0; index < allLectures.length; index++) {
+        if (allLectures[index] != null) {
+          if (allLectures[index].result == "Insuficiencia cardíaca") {
+            helper2.push(allLectures[index]);
+          }
+        }
+      }
+      res.json({
+        result_lectures: helper2,
+      });
+    }, 4000);
+  }, 4000);
+};
+
+const getWebResultLectures = async (req = request, res = response) => {
   // const id  = req.query.id;
   const allLectures = [];
   var id = req.params["id"];
@@ -161,8 +191,10 @@ const getResultLectures = async (req = request, res = response) => {
   }, 4000);
 };
 
+
 module.exports = {
   getDataWereable,
-  getResultLectures,
-  getResultLecturesAnomality,
+  getWebResultLectures,
+  getWebResultAbnormality,
+  getMobileResultLectures,
 };
