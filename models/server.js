@@ -8,7 +8,7 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.usersPath = '/api/users';
-    this.polarPath = '/api/polar';
+    this.polarPath = '/';
     
     //Middlewares
     this.middlewares();
